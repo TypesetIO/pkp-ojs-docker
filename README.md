@@ -12,7 +12,8 @@ $docker run -p 80:80 --link some-mysql:mysql -d infrascielo/pkp-ojs
 * -e OJS_DB_NAME=... (default to ojs)
 * -e SERVERNAME=...(default to ojs-v3.scielo.org)
 
-To work with --link you must have to run a mysql container
+The pkp-ojs container expect a mysql container to work. So, you need to run mysql container first. Don't forget to specify a container name to mysql to work with --link. The link option create a relationship with each other.
+
 ```
 docker run --name <some-mysql> \
            -e MYSQL_ROOT_PASSWORD=<password>  \
