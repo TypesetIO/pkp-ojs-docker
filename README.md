@@ -42,7 +42,7 @@ $ docker run -p 80:80 \
              -e OJS_DB_USER=root \
              -e OJS_DB_PASSWORD=ojs \
              --link mysql:mysql \
-             -d infrascielo/pkp-ojs
+             -d infrascielo/pkp-ojs:3.0b1
 ```
 
 Important points
@@ -57,6 +57,6 @@ $ docker run -p 80:80 \
              -e LOG_NAME=0js-v3_scielo_org \
              -v /var/www/apache2:/var/www/apache2 \
              --link mysql:mysql \
-             -d infrascielo/pkp-ojs
+             -d infrascielo/pkp-ojs:3.0b1
 ```
 * The parameter **-v /var/www/apache2:/var/www/apache2** allows to mount /var/www/apache2 to save logs outside the container
