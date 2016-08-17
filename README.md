@@ -28,9 +28,9 @@ After create mysql container you can can run the omp container.
 **Sample**
 ```
 $ docker run --name mysql \
-              -e MYSQL_ROOT_PASSWORD=omp  \
-              -e MYSQL_USER=omp \
-              -e MYSQL_PASSWORD=omp \
+              -e MYSQL_ROOT_PASSWORD=ojs  \
+              -e MYSQL_USER=ojs \
+              -e MYSQL_PASSWORD=ojs \
               -d mysql
 ```
 ```
