@@ -11,6 +11,8 @@ $docker run -p 80:80 --link some-mysql:mysql -d infrascielo/pkp-ojs
 * -e OJS_DB_PASSWORD=... (default to ojs)
 * -e OJS_DB_NAME=... (default to ojs)
 * -e SERVERNAME=...(default to ojs-v3.scielo.org)
+* -e APACHE_LOG_DIR=... (default to /var/log/apache2)
+* -e LOG_NAME=...(default to 0js-v3_scielo_org)
 
 The pkp-ojs container expect a mysql container to work. So, you need to run mysql container first. Don't forget to specify a container name to mysql to work with --link. The link option create a relationship with each other.
 
@@ -42,3 +44,21 @@ $ docker run -p 80:80 \
              --link mysql:mysql \
              -d infrascielo/pkp-ojs
 ```
+
+Important points
+================
+If you would like to save logs and directory estructure web it is necessary to specify volume when run containers. Follow example:
+```
+$ docker run -p 80:80 \
+             -e OJS_DB_HOST=mysql \
+             -e OJS_DB_USER=root \
+             -e OJS_DB_PASSWORD=ojs \
+             -e APACHE_LOG_DIR=/var/log/apache2 \
+             -e LOG_NAME=0js-v3_scielo_org \
+             -v /var/www/apache2:/var/www/apache2 \
+             -v /var/www/ojs:/var/www/ojs \
+             --link mysql:mysql \
+             -d infrascielo/pkp-ojs
+```
+* The parameter **-v /var/www/apache2:/var/www/apache2** allows to mount /var/www/apache2 to save logs outside the container
+* The parameter **-v /var/www/ojs:/var/www/ojs ** allow to save estructure web outside the container
