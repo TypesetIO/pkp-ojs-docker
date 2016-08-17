@@ -36,9 +36,9 @@ $ docker run --name mysql \
 ```
 ```
 $ docker run -p 80:80 \
-             -e OMP_DB_HOST=mysql \
-             -e OMP_DB_USER=root \
-             -e OMP_DB_PASSWORD=omp \
+             -e OJS_DB_HOST=mysql \
+             -e OJS_DB_USER=root \
+             -e OJS_DB_PASSWORD=ojs \
              --link mysql:mysql \
              -d infrascielo/pkp-ojs
 ```
