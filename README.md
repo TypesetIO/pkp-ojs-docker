@@ -47,7 +47,7 @@ $ docker run -p 80:80 \
 
 Important points
 ================
-If you would like to save logs and directory estructure web it is necessary to specify volume when run containers. Follow example:
+If you would like to save logs it is necessary to specify volume when run containers. Follow example:
 ```
 $ docker run -p 80:80 \
              -e OJS_DB_HOST=mysql \
@@ -56,9 +56,7 @@ $ docker run -p 80:80 \
              -e APACHE_LOG_DIR=/var/log/apache2 \
              -e LOG_NAME=0js-v3_scielo_org \
              -v /var/www/apache2:/var/www/apache2 \
-             -v /var/www/ojs:/var/www/ojs \
              --link mysql:mysql \
              -d infrascielo/pkp-ojs
 ```
 * The parameter **-v /var/www/apache2:/var/www/apache2** allows to mount /var/www/apache2 to save logs outside the container
-* The parameter **-v /var/www/ojs:/var/www/ojs ** allow to save estructure web outside the container
