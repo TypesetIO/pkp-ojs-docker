@@ -13,6 +13,7 @@ RUN apt-get -qqy update \
                             libxslt-dev \
 			    cron \
 			    logrotate \
+			    git \
     && rm -rf /var/lib/apt/lists/* \
     && docker-php-ext-configure gd --with-png-dir=/usr --with-jpeg-dir=/usr \
     && docker-php-ext-install gd \
@@ -32,38 +33,16 @@ RUN { \
 		echo 'opcache.max_accelerated_files=4000'; \
 		echo 'opcache.revalidate_freq=60'; \
 		echo 'opcache.fast_shutdown=1'; \
+		echo 'opcache.max_file_size=0'; \
 		echo 'opcache.enable_cli=1'; \
 	} > /usr/local/etc/php/conf.d/opcache-recommended.ini
 
 # enable mod_rewrite
 RUN a2enmod rewrite
 
-WORKDIR /var/www/html
+WORKDIR /var/www/
 
-# can be overridden/set in compose file
-ENV OJS_VERSION 3.0b1
-
-# upstream tarballs include ./ojs-${OJS_VERSION}/ so this gives us /var/www/ojs
-RUN curl -o ojs.tar.gz -SL http://pkp.sfu.ca/ojs/download/ojs-${OJS_VERSION}.tar.gz \
-	&& tar -xzf ojs.tar.gz -C /var/www \
-	&& rm ojs.tar.gz \
-        && mv /var/www/ojs-${OJS_VERSION} /var/www/ojs \
-	&& chown -R www-data:www-data /var/www/ojs
-
-# creating a directory to save uploaded files.
-RUN mkdir /var/www/files \
-    && chown -R www-data:www-data /var/www/files
-
-# environment to set database params 
-ENV OJS_DB_HOST localhost
-ENV OJS_DB_USER ojs
-ENV OJS_DB_PASSWORD ojs
-ENV OJS_DB_NAME ojs
-
-# Site servername
-ENV SERVERNAME ojs-v3.scielo.org
-ENV APACHE_LOG_DIR /var/log/apache2
-ENV LOG_NAME 0js-v3_scielo_org
+COPY 000-default.conf /etc/apache2/sites-enabled/000-default.conf
 
 # Add crontab running runSheduledTasks.php
 COPY ojs-crontab.conf /ojs-crontab.conf
@@ -74,10 +53,10 @@ RUN sed -i 's:INSTALL_DIR:'`pwd`':' /ojs-crontab.conf \
     && crontab /ojs-crontab.conf \
     && touch /var/log/cron.log
 
-COPY 000-default.conf /etc/apache2/sites-enabled/000-default.conf
-
 EXPOSE 80
+
 # Add startup script to the container.
 COPY ojs-startup.sh /ojs-startup.sh
+
 # Execute the containers startup script which will start many processes/services
 CMD ["/bin/bash", "/ojs-startup.sh"]
