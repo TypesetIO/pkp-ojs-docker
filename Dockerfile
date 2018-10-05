@@ -1,12 +1,13 @@
 FROM php:5.6-apache
 
-MAINTAINER Rondineli Saad <rondineli.saad@scielo.org>
+MAINTAINER Dipanjan Mukherjee <dipanjan.mu@gmail.com>
 
 RUN a2enmod rewrite expires
 
 # install the PHP extensions we need
 RUN apt-get -qqy update \
-    && apt-get install -qqy libpng12-dev \
+    && apt-get install -qqy zip \
+    && apt-get install -qqy libpng-dev \
                             libjpeg-dev \
                             libmcrypt-dev \
                             libxml2-dev \
