@@ -2,7 +2,18 @@ Dockerizing OJS (Open Journal Systems) - PKP
 ============================================
 Open Journal Systems (OJS) is a journal management and publishing system that has been developed by the Public Knowledge Project through its federally funded efforts to expand and improve access to research.
 
-###How to use this image###
+Origin:
+A lot of the work on this was done by SciELO at https://bitbucket.org/infra-scielo/pkp-ojs/src
+
+We have added docker-compose to make things easier.
+
+## How to use the docker-compose configuration
+
+```
+docker-compose up -d -e SERVERNAME=ojs.yourdomain.com
+```
+
+## How to use the image without docker-compose
 ```
 $docker run -p 80:80 --link some-mysql:mysql -d infrascielo/pkp-ojs
 ```
