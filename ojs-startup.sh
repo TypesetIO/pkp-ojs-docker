@@ -12,20 +12,26 @@ if [ ! -f /var/www/ojs/config.inc.php ]; then
     && git clone -v --recursive --progress https://github.com/pkp/ojs.git /var/www/ojs \
     && cd /var/www/ojs \
     && git fetch origin \
-    && git checkout remotes/origin/${OJS_VERSION} -b ${OJS_VERSION} \
-    && git submodule update --init --recursive \
-    && curl -sS https://getcomposer.org/installer | php \
-    && cd lib/pkp \
-    && php ../../composer.phar update \
-    && cd ../.. \
-    && cd plugins/paymethod/paypal \
-    && php ../../../composer.phar update \
-    && cd ../../.. \
-    && cd plugins/generic/citationStyleLanguage \
-    && php ../../../composer.phar update \
-    && cd ../../.. \
-    && cp config.TEMPLATE.inc.php config.inc.php \
-    && chown -R www-data:www-data /var/www/ojs
+    && git checkout -f remotes/origin/${OJS_VERSION} -b ${OJS_VERSION} \
+    && git submodule update --init --recursive;
+
+    # Install composer
+    curl -sS https://getcomposer.org/installer | php
+
+    pushd lib/pkp \
+    && php ../../composer.phar update;
+    popd;
+
+    pushd plugins/paymethod/paypal \
+    && php ../../../composer.phar update;
+    popd;
+
+    pushd plugins/generic/citationStyleLanguage \
+    && php ../../../composer.phar update;
+    popd;
+
+    cp config.TEMPLATE.inc.php config.inc.php
+    chown -R www-data:www-data /var/www/ojs
 fi
 
 # creating a directory to save uploaded files.
@@ -38,7 +44,16 @@ sed -i -e "s/password = ojs/password = ${OJS_DB_PASSWORD}/g" /var/www/ojs/config
 sed -i -e "s/name = ojs/name = ${OJS_DB_NAME}/g" /var/www/ojs/config.inc.php
 
 sed -i -e "s/\/var\/www\/html/\/var\/www\/ojs/g" /etc/apache2/sites-available/000-default.conf
-sed -i -e "s/www.example.com/${SERVERNAME}/g" /etc/apache2/sites-available/000-default.conf
+
+if [ -z "$SERVERNAME" ]
+then
+    echo "SERVERNAME not provided, virtualhost will be created without a hostname.";
+	sed -i -e "/ServerName www.example.com/d";
+else
+    echo "${SERVERNAME} will be used to create virtualhost";
+    sed -i -e "s/www.example.com/${SERVERNAME}/g" /etc/apache2/sites-available/000-default.conf;
+fi
+
 sed -i -e "s/\/var\/log\/apache2/${APACHE_LOG_DIR}/g" /etc/apache2/sites-available/000-default.conf
 sed -i -e "s/error.log/%Y-%m-%d+${LOG_NAME}-error.log/g" /etc/apache2/sites-available/000-default.conf
 sed -i -e "s/access.log/%Y-%m-%d+${LOG_NAME}.log/g" /etc/apache2/sites-available/000-default.conf
