@@ -1,4 +1,4 @@
-FROM php:5.6-apache
+FROM php:7.2-apache-stretch
 
 MAINTAINER Dipanjan Mukherjee <dipanjan.mu@gmail.com>
 
@@ -12,19 +12,17 @@ RUN apt-get -qqy update \
                             libmcrypt-dev \
                             libxml2-dev \
                             libxslt-dev \
-			    cron \
-			    logrotate \
-			    git \
+                            cron \
+                            logrotate \
+                            git \
     && rm -rf /var/lib/apt/lists/* \
     && docker-php-ext-configure gd --with-png-dir=/usr --with-jpeg-dir=/usr \
     && docker-php-ext-install gd \
                               mysqli \
-                              mysql \
                               opcache \
-			      mcrypt \
-			      soap \
-			      xsl \
-			      zip
+                              soap \
+                              xsl \
+                              zip
 
 # set recommended PHP.ini settings
 # see https://secure.php.net/manual/en/opcache.installation.php
@@ -53,6 +51,10 @@ RUN sed -i 's:INSTALL_DIR:'`pwd`':' /ojs-crontab.conf \
     # Use the crontab file
     && crontab /ojs-crontab.conf \
     && touch /var/log/cron.log
+
+
+COPY ojs-install.sh /ojs-install.sh
+RUN /bin/bash /ojs-install.sh
 
 EXPOSE 80
 

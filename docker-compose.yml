@@ -3,11 +3,12 @@
 #  `docker-compose up -d -e SERVERNAME=something.typeset.io`
 version: "3"
 services:
-  db:
+  mysql:
     environment:
       - MYSQL_ROOT_PASSWORD=root_password
-      - MYSQL_USER=ojs
-      - MYSQL_PASSWORD=ojs
+      - MYSQL_DATABASE=ojs_db
+      - MYSQL_USER=ojs_user
+      - MYSQL_PASSWORD=ojs_password
     image: mysql:5.6
     volumes:
       - db-data:/var/lib/mysql/data
@@ -18,15 +19,16 @@ services:
     environment:
       - OJS_VERSION=ojs-stable-3_0_2
       - OJS_DB_HOST=mysql
-      - OJS_DB_USER=ojs
-      - OJS_DB_PASSWORD=ojs
+      - OJS_DB_NAME=ojs_db
+      - OJS_DB_USER=ojs_user
+      - OJS_DB_PASSWORD=ojs_password
     build: .
     ports:
       - "8090:80"
     networks:
       - backend
     depends_on:
-      - db
+      - mysql
 
 networks:
   backend:
