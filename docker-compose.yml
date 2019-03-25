@@ -17,8 +17,7 @@ services:
 
   ojs:
     environment:
-      - SERVERNAME=ojs.typeset.io
-      - OJS_VERSION=ojs-stable-3_0_2
+      - OJS_VERSION=ojs-stable-3_1_1
       - OJS_DB_HOST=mysql
       - OJS_DB_NAME=ojs_db
       - OJS_DB_USER=ojs_user
