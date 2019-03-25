@@ -1,6 +1,6 @@
 FROM php:7.2-apache-stretch
 
-MAINTAINER Dipanjan Mukherjee <dipanjan.mu@gmail.com>
+LABEL maintainer="Dipanjan Mukherjee <dipanjan.mu@gmail.com>"
 
 RUN a2enmod rewrite expires
 
