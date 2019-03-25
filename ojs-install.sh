@@ -16,7 +16,7 @@ if [ ! -f /var/www/ojs/config.inc.php ]; then
     && git clone --depth 1 --recurse-submodules -j8 --progress https://github.com/pkp/ojs.git /var/www/ojs \
     && cd /var/www/ojs \
     && git fetch origin \
-    && git checkout -f remotes/origin/${OJS_VERSION} -b ${OJS_VERSION} \
+    && git checkout -f remotes/origin/${OJS_VERSION} -b ${OJS_VERSION}  --depth 1 \
     && git submodule update -j8 --init --recursive;
 
     # Install composer
