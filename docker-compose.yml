@@ -27,8 +27,7 @@ services:
       args:
         - OJS_VERSION=3.1.2
     ports:
-      - "8091:80"
-      - "8090:443"
+      - "8090:80"
     networks:
       - backend
     depends_on:
