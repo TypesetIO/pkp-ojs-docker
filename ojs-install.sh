@@ -1,12 +1,12 @@
 #!/bin/bash
 
-# Uncomment to use tarballs from pkp downloads
+# Uncomment to use tarballs from pkp downloads like http://pkp.sfu.ca/ojs/download/ojs-3.1.2.tar.gz
 # upstream tarballs include ./ojs-${OJS_VERSION}/ so this gives us /var/www/ojs
-#curl -o ojs.tar.gz -SL http://pkp.sfu.ca/ojs/download/ojs-${OJS_VERSION}.tar.gz \
-#	&& tar -xzf ojs.tar.gz -C /var/www \
-#	&& rm ojs.tar.gz \
-#        && mv /var/www/ojs-${OJS_VERSION} /var/www/ojs \
-#	&& chown -R www-data:www-data /var/www/ojs
+curl -o ojs.tar.gz -SL http://pkp.sfu.ca/ojs/download/ojs-${OJS_VERSION}.tar.gz \
+	&& tar -xzf ojs.tar.gz -C /var/www \
+	&& rm ojs.tar.gz \
+       && mv /var/www/ojs-${OJS_VERSION} /var/www/ojs \
+	&& chown -R www-data:www-data /var/www/ojs
 
 
 # Cloning and Cleaning OJS and PKP-LIB git repositories if not already using
