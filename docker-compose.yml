@@ -18,12 +18,14 @@ services:
   ojs:
     environment:
       - SERVERNAME=ojs.typeset.io
-      - OJS_VERSION=3.1.2
       - OJS_DB_HOST=mysql
       - OJS_DB_NAME=ojs_db
       - OJS_DB_USER=ojs_user
       - OJS_DB_PASSWORD=ojs_password
-    build: .
+    build:
+      context: .
+      args:
+        - OJS_VERSION=3.1.2
     ports:
       - "8090:80"
     networks:

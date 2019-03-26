@@ -2,6 +2,8 @@ FROM php:7.2-apache-stretch
 
 LABEL maintainer="Dipanjan Mukherjee <dipanjan.mu@gmail.com>"
 
+ARG OJS_VERSION
+
 RUN a2enmod rewrite expires
 
 # install the PHP extensions we need
